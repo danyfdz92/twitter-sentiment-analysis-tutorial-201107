@@ -10,6 +10,15 @@
 #' @returnType data.frame
 #' @return data.frame of text and corresponding sentiment scores
 #' @author Jefrey Breen <jbreen@cambridge.aero>
+
+pos.file <- file.choose() #choosing the file
+pos.file
+pos.words <- read.csv(file = pos.file, header = FALSE, stringsAsFactors = FALSE)
+
+neg.file <- file.choose() #choosing the file
+neg.file
+neg.words <- read.csv(file = neg.file, header = FALSE, stringsAsFactors = FALSE)
+
 score.sentiment = function(sentences, pos.words, neg.words, .progress='none')
 {
 	require(plyr)
@@ -30,7 +39,11 @@ score.sentiment = function(sentences, pos.words, neg.words, .progress='none')
 		word.list = str_split(sentence, '\\s+')
 		# sometimes a list() is one level of hierarchy too much
 		words = unlist(word.list)
-
+		
+		#unlist positive and negative words dictionaries
+   		pos.words <- unlist(pos.words, recursive = TRUE)
+    		neg.words <- unlist(neg.words, recursive = TRUE)
+		
 		# compare our words to the dictionaries of positive & negative terms
 		pos.matches = match(words, pos.words)
 		neg.matches = match(words, neg.words)
